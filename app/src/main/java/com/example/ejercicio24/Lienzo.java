@@ -59,6 +59,8 @@ public class Lienzo extends View {
         drawCanvas = new Canvas(canvasBitmap);
     }
 
+
+
     @Override
     public void onDraw(Canvas canvas) {
         canvas.drawBitmap(canvasBitmap, 0, 0, canvasPaint);

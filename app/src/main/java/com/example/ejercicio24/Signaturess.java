@@ -1,15 +1,15 @@
 package com.example.ejercicio24;
 
-public class signaturess {
+public class Signaturess {
     Integer id;
     String Descripcion;
-    byte[] imagen;
+    String imagen;
 
-    public signaturess() {
+    public Signaturess() {
 
     }
 
-    public signaturess(Integer id, String descripcion, byte[] imagen) {
+    public Signaturess(Integer id, String descripcion, String imagen) {
         this.id = id;
         Descripcion = descripcion;
         this.imagen = imagen;
@@ -31,11 +31,11 @@ public class signaturess {
         Descripcion = descripcion;
     }
 
-    public byte[] getImagen() {
+    public String getImagen() {
         return imagen;
     }
 
-    public void setImagen(byte[] imagen) {
+    public void setImagen(String imagen) {
         this.imagen = imagen;
     }
 }

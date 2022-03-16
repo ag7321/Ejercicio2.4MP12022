@@ -5,9 +5,12 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +25,7 @@ import java.io.ByteArrayOutputStream;
 public class MainActivity extends AppCompatActivity  {
 
     Lienzo lienzo;
-    ImageButton nuevo;
+    ImageButton nuevo,ver;
     Button salvar;
     EditText descripcion;
     SQLiteConexion conexion;
@@ -37,6 +40,7 @@ public class MainActivity extends AppCompatActivity  {
         nuevo = (ImageButton) findViewById(R.id.btnN);
 
         salvar = (Button) findViewById(R.id.btnSalvar);
+        ver = (ImageButton)findViewById(R.id.btnVer);
 
         descripcion = (EditText) findViewById(R.id.textDescripcion);
 
@@ -73,6 +77,14 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+        ver.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ActivitySeeSignaturess.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     private void saveSignaturess(){
@@ -80,23 +92,25 @@ public class MainActivity extends AppCompatActivity  {
 
         ContentValues values = new ContentValues();
 
-        values.put(Transacciones.descripcion,descripcion.toString());
-
-        lienzo.setDrawingCacheEnabled(true);
-
+        values.put(Transacciones.descripcion,descripcion.getText().toString());
         ByteArrayOutputStream bay = new ByteArrayOutputStream(10480);
 
-        Bitmap bitmap = Bitmap.createBitmap(339, 334, Bitmap.Config.ARGB_8888);
+        Bitmap bitmap = Bitmap.createBitmap(lienzo.getWidth(), lienzo.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(bitmap);
 
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 0 , bay);
+        lienzo.draw(canvas);
+
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100 , bay);
 
         byte[] bl = bay.toByteArray();
 
-        values.put(Transacciones.imagen, bl);
+        String img= Base64.encodeToString(bl,Base64.DEFAULT);
+
+        values.put(Transacciones.imagen, img);
 
         Long result = db.insert(Transacciones.tablasignaturess, Transacciones.id, values);
 
-        Toast.makeText(getApplicationContext(), "Signature guardado "
+        Toast.makeText(getApplicationContext(), "Signature guardado"
                 ,Toast.LENGTH_LONG).show();
 
         db.close();
