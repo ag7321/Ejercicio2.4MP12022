@@ -73,7 +73,15 @@ public class MainActivity extends AppCompatActivity  {
         salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                saveSignaturess();
+
+                    saveSignaturess();
+                    lienzo.nuevoDibujo();
+                    descripcion.setText("");
+
+                    //Toast.makeText(getApplicationContext(), "Debe dibujar la firma y escribir una descripcion", Toast.LENGTH_LONG).show();
+
+
+
             }
         });
 

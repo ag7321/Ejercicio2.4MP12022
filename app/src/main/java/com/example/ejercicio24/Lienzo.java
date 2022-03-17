@@ -20,7 +20,7 @@ import android.view.WindowManager;
 public class Lienzo extends View {
 
     private Path drawPath;
-    private static Paint drawPaint;
+    public static Paint drawPaint;
     private Paint canvasPaint;
     private int paintColor = 0xFF000000;
     private Canvas drawCanvas;
