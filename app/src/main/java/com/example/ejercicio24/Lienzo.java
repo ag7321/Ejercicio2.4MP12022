@@ -3,19 +3,13 @@ package com.example.ejercicio24;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffXfermode;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.WindowManager;
 
 public class Lienzo extends View {
 
@@ -25,20 +19,12 @@ public class Lienzo extends View {
     private int paintColor = 0xFF000000;
     private Canvas drawCanvas;
     private Bitmap canvasBitmap;
-    private static boolean borrado=false;
+    public boolean borrado=true;
     public Lienzo(Context context, AttributeSet attrs){
         super(context, attrs);
         setupDrawing();
     }
 
-    public static void setErase(boolean estadoborrado){
-        borrado = estadoborrado;
-        if(borrado = estadoborrado){
-            drawPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
-        }else{
-            drawPaint.setXfermode(null);
-        }
-    }
 
     private void setupDrawing(){
         drawPath = new Path();
@@ -50,6 +36,7 @@ public class Lienzo extends View {
         drawPaint.setStrokeJoin(Paint.Join.ROUND);
         drawPaint.setStrokeCap(Paint.Cap.ROUND);
         canvasPaint = new Paint(Paint.DITHER_FLAG);
+        borrado = true;
     }
 
     @Override
@@ -87,8 +74,8 @@ public class Lienzo extends View {
             default:
                 return false;
         }
-
         invalidate();
+        borrado = false;
         return true;
 
     }
@@ -96,5 +83,6 @@ public class Lienzo extends View {
     public void nuevoDibujo(){
         drawCanvas.drawColor(0, PorterDuff.Mode.CLEAR);
         invalidate();
+        borrado = true;
     }
 }

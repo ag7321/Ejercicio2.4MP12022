@@ -30,10 +30,13 @@ public class MainActivity extends AppCompatActivity  {
     EditText descripcion;
     SQLiteConexion conexion;
     Bitmap ima;
+    boolean estado;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        estado=true;
 
         conexion = new SQLiteConexion(this, Transacciones.NameDatabase,null,1);
 
@@ -70,18 +73,11 @@ public class MainActivity extends AppCompatActivity  {
             }
         });
 
+
         salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                    saveSignaturess();
-                    lienzo.nuevoDibujo();
-                    descripcion.setText("");
-
-                    //Toast.makeText(getApplicationContext(), "Debe dibujar la firma y escribir una descripcion", Toast.LENGTH_LONG).show();
-
-
-
+                saveSignaturess();
             }
         });
 
@@ -96,6 +92,15 @@ public class MainActivity extends AppCompatActivity  {
     }
 
     private void saveSignaturess(){
+        if(lienzo.borrado){
+            Toast.makeText(getApplicationContext(), "El lienzo no debe ir vacio"
+                    ,Toast.LENGTH_LONG).show();
+            return;
+        }else if(descripcion.getText().toString().trim().isEmpty()){
+            Toast.makeText(getApplicationContext(), "Ingrese una descripcion"
+                    ,Toast.LENGTH_LONG).show();
+            return;
+        }
         SQLiteDatabase db = conexion.getWritableDatabase();
 
         ContentValues values = new ContentValues();
@@ -120,6 +125,8 @@ public class MainActivity extends AppCompatActivity  {
 
         Toast.makeText(getApplicationContext(), "Signature guardado"
                 ,Toast.LENGTH_LONG).show();
+        lienzo.nuevoDibujo();
+        descripcion.setText("");
 
         db.close();
     }
